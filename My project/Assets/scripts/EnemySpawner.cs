@@ -1,37 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour
 {
-   public GameObject enemyPrefab;
+    public GameObject enemyPrefab;
 
-    public float spawnrate = 2f;
+    public float spawnRate = 2f;
 
-    public float minXAispawnValue;
-    public float maxXAispawnValue;
+    public float minXAxispawnValue = -8f;
+    public float maxXAxisSpawnValue = 8f;
 
-    public float yAXisSpawnValue = 4f;
+    public float yAxisSpawnValue = 4f;
 
     private float timeSinceLastAction = 0f;
+
+    public List<GameObject> spawnedEnemies = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
-        Al=
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        timeSinceLastAction += Time.deltaTime;
+
+        if (timeSinceLastAction >= spawnRate)
+        {
+            SpawnEnemy();
+        }
+
     }
+
     void SpawnEnemy()
     {
-        float xPosition = Random.Range(minXAispawnValue, maxXAispawnValue);
-        Vector3 spawnPosition = new Vector3(xPosition, yAxisSpawnValue);
+        float xPosition = Random.Range(minXAxispawnValue, maxXAxisSpawnValue);
+        Vector2 spawnPosition = new Vector2(xPosition, yAxisSpawnValue);
+        GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, this.transform);
+
+        timeSinceLastAction = 0f;
+
+        spawnedEnemies.Add(spawnedEnemy);
+
     }
-
-
 }
